@@ -62,6 +62,7 @@ def test_contract_validates_royalties():
 
 def test_author_has_contracts():
     """Test Author class has method contracts() that returns a list of its contracts"""
+    Contract.all_contracts = []  # Clear all contracts before the test
     author = Author("Name")
     book = Book("Title")
     contract = Contract(author, book, '01/01/2001', 50000)
@@ -70,6 +71,7 @@ def test_author_has_contracts():
 
 def test_author_has_books():
     """Test Author class has method books() that returns a list of its books"""
+    Contract.all_contracts = []  # Clear all contracts before the test
     author = Author("Name")
     book = Book("Title")
     Contract(author, book, '01/01/2001', 50000)
@@ -78,6 +80,7 @@ def test_author_has_books():
 
 def test_book_has_contracts():
     """Test Book class has method contracts() that returns a list of its contracts"""
+    Contract.all_contracts = []  # Clear all contracts before the test
     author = Author("Name")
     book = Book("Title")
     contract = Contract(author, book, '01/01/2001', 50000)
@@ -86,6 +89,7 @@ def test_book_has_contracts():
 
 def test_book_has_authors():
     """Test Book class has method authors() that returns a list of its authors"""
+    Contract.all_contracts = []  # Clear all contracts before the test
     author = Author("Name")
     book = Book("Title")
     Contract(author, book, '01/01/2001', 50000)
@@ -94,6 +98,7 @@ def test_book_has_authors():
 
 def test_author_can_sign_contract():
     """Test Author class has method sign_contract() that creates a contract for an author and book"""
+    Contract.all_contracts = []  # Clear all contracts before the test
     author = Author("Name")
     book = Book("Title")
 
@@ -107,6 +112,7 @@ def test_author_can_sign_contract():
 
 def test_author_has_total_royalties():
     """Test Author class has method total_royalties that gets the sum of all its related contracts' royalties"""
+    Contract.all_contracts = []  # Clear all contracts before the test
     author = Author("Name")
     book1 = Book("Title 1")
     book2 = Book("Title 2")
@@ -119,8 +125,8 @@ def test_author_has_total_royalties():
     assert author.total_royalties() == 60
 
 def test_contract_contracts_by_date():
-    """Test Contract class has method contracts_by_date() that sorts all contracts by date"""
-    Contract.all = []
+    """Test Contract class has method contracts_by_date() that returns contracts for a given date"""
+    Contract.all_contracts = []  # Clear all contracts before the test
     author1 = Author("Name 1")
     book1 = Book("Title 1")
     book2 = Book("Title 2")
@@ -132,4 +138,7 @@ def test_contract_contracts_by_date():
     contract3 = Contract(author1, book3, "03/01/2001", 30)
     contract4 = Contract(author2, book4, "01/01/2001", 40)
 
-    assert Contract.contracts_by_date('01/01/2001') == [contract2, contract4]
+    expected_contracts = [contract2, contract4]
+    actual_contracts = Contract.contracts_by_date('01/01/2001')
+
+    assert actual_contracts == expected_contracts, f"Expected {expected_contracts}, but got {actual_contracts}"
